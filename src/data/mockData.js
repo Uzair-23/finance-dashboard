@@ -1,17 +1,7 @@
 // Mock transaction data for the finance dashboard
-const generateTransactions = () => {
-  const categories = {
-    Food: { icon: '🍔', color: 'bg-orange-500' },
-    Transport: { icon: '🚗', color: 'bg-blue-500' },
-    Shopping: { icon: '🛍️', color: 'bg-pink-500' },
-    Entertainment: { icon: '🎬', color: 'bg-purple-500' },
-    Salary: { icon: '💰', color: 'bg-green-500' },
-    Rent: { icon: '🏠', color: 'bg-slate-500' },
-    Healthcare: { icon: '⚕️', color: 'bg-red-500' },
-    Utilities: { icon: '💡', color: 'bg-yellow-500' },
-    Freelance: { icon: '💻', color: 'bg-cyan-500' },
-  };
+import { CATEGORY_CONFIG } from './constants';
 
+const generateTransactions = () => {
   const merchants = {
     Food: ['Starbucks', 'McDonald\'s', 'Pizza Hut', 'Dominos', 'Zomato', 'Swiggy', 'Local Restaurant'],
     Transport: ['Uber', 'Ola', 'Parking', 'Gas Station', 'Car Maintenance', 'Metro Card'],

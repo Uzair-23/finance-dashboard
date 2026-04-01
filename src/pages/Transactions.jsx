@@ -76,6 +76,7 @@ const Transactions = () => {
           transactions={filteredTransactions}
           onEdit={handleEdit}
           onDelete={handleDelete}
+          onAdd={isAdmin ? handleAddClick : null}
           currentPage={currentPage}
           onPageChange={setCurrentPage}
           itemsPerPage={10}

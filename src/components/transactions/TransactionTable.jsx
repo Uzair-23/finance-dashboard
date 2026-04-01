@@ -13,6 +13,7 @@ const TransactionTable = ({
   transactions,
   onEdit,
   onDelete,
+  onAdd,
   currentPage = 1,
   itemsPerPage = 10,
   onPageChange,
@@ -62,7 +63,12 @@ const TransactionTable = ({
       <Card>
         <div className="text-center py-12 text-slate-400 font-dm-sans">
           <p className="text-lg mb-2">No transactions found</p>
-          <p className="text-sm">Try adjusting your filters or add new transactions.</p>
+          <p className="text-sm mb-6">Try adjusting your filters or add new transactions.</p>
+          {onAdd && (
+            <Button onClick={onAdd} variant="primary" size="sm">
+              Add Transaction
+            </Button>
+          )}
         </div>
       </Card>
     );
@@ -140,6 +146,7 @@ const TransactionTable = ({
                       onClick={() => onEdit(txn)}
                       className="p-1.5 rounded text-slate-400 hover:text-blue-400 hover:bg-blue-500/10 transition-colors"
                       title="Edit"
+                      aria-label={`Edit transaction: ${txn.merchant} on ${formatDate(txn.date)}`}
                     >
                       <Edit2 size={16} />
                     </button>
@@ -147,6 +154,7 @@ const TransactionTable = ({
                       onClick={() => onDelete(txn.id)}
                       className="p-1.5 rounded text-slate-400 hover:text-red-400 hover:bg-red-500/10 transition-colors"
                       title="Delete"
+                      aria-label={`Delete transaction: ${txn.merchant} on ${formatDate(txn.date)}`}
                     >
                       <Trash2 size={16} />
                     </button>

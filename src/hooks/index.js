@@ -1,20 +1,20 @@
 import { useTransactionStore } from '../store/transactionStore';
 import { useRoleStore } from '../store/roleStore';
 import { useMemo } from 'react';
+import { DEFAULT_FILTERS } from '../data/constants';
 
 /**
  * Hook to manage transactions
+ * Atomic selectors prevent unnecessary re-renders by only subscribing to needed state
  * @returns {Object} Transaction state and methods
  */
 export const useTransactions = () => {
-  const {
-    transactions,
-    addTransaction,
-    editTransaction,
-    deleteTransaction,
-    setSelectedTransaction,
-    selectedTransaction,
-  } = useTransactionStore();
+  const transactions = useTransactionStore(state => state.transactions);
+  const addTransaction = useTransactionStore(state => state.addTransaction);
+  const editTransaction = useTransactionStore(state => state.editTransaction);
+  const deleteTransaction = useTransactionStore(state => state.deleteTransaction);
+  const setSelectedTransaction = useTransactionStore(state => state.setSelectedTransaction);
+  const selectedTransaction = useTransactionStore(state => state.selectedTransaction);
 
   return {
     transactions,
@@ -28,10 +28,14 @@ export const useTransactions = () => {
 
 /**
  * Hook to manage filters
+ * Uses atomic selectors to track only filter and transaction changes
  * @returns {Object} Filter state and methods
  */
 export const useFilters = () => {
-  const { filters, setFilter, resetFilters, transactions } = useTransactionStore();
+  const filters = useTransactionStore(state => state.filters);
+  const transactions = useTransactionStore(state => state.transactions);
+  const setFilter = useTransactionStore(state => state.setFilter);
+  const resetFilters = useTransactionStore(state => state.resetFilters);
 
   const filteredTransactions = useMemo(() => {
     let result = transactions;
@@ -78,10 +82,12 @@ export const useFilters = () => {
 
 /**
  * Hook to manage user role
+ * Uses atomic selectors to track only role changes
  * @returns {Object} Role state and methods
  */
 export const useRole = () => {
-  const { currentRole, setRole } = useRoleStore();
+  const currentRole = useRoleStore(state => state.currentRole);
+  const setRole = useRoleStore(state => state.setRole);
   const isAdmin = currentRole === 'Admin';
   const isViewer = currentRole === 'Viewer';
 

@@ -2,21 +2,7 @@ import { useMemo } from 'react';
 import { PieChart, Pie, Cell, Legend, Tooltip, ResponsiveContainer } from 'recharts';
 import Card from '../common/Card';
 import { getCategorySpending } from '../../utils/helpers';
-
-/**
- * Color palette for categories
- */
-const COLORS = {
-  Food: '#f97316',
-  Transport: '#3b82f6',
-  Shopping: '#ec4899',
-  Entertainment: '#a855f7',
-  Salary: '#10b981',
-  Rent: '#64748b',
-  Healthcare: '#ef4444',
-  Utilities: '#eab308',
-  Freelance: '#06b6d4',
-};
+import { CATEGORY_COLORS } from '../../data/constants';
 
 /**
  * Custom tooltip for the pie chart
@@ -68,7 +54,7 @@ const SpendingPieChart = ({ transactions }) => {
                 labelLine={false}
               >
                 {data.map((entry, index) => (
-                  <Cell key={`cell-${index}`} fill={COLORS[entry.category] || '#64748b'} />
+                  <Cell key={`cell-${index}`} fill={CATEGORY_COLORS[entry.category] || '#64748b'} />
                 ))}
               </Pie>
               <Tooltip content={<CustomTooltip />} />

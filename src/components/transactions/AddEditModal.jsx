@@ -4,12 +4,24 @@ import Button from '../common/Button';
 import { useTransactionStore } from '../../store/transactionStore';
 
 /**
+ * Get local date string (YYYY-MM-DD) accounting for timezone offset
+ */
+const getLocalDateString = () => {
+  const date = new Date();
+  const offset = date.getTimezoneOffset();
+  const localDate = new Date(date.getTime() - offset * 60000);
+  return localDate.toISOString().split('T')[0];
+};
+
+/**
  * AddEditModal Component - Modal form for adding/editing transactions
  */
 const AddEditModal = ({ isOpen, onClose, transaction = null }) => {
-  const { addTransaction, editTransaction, transactions } = useTransactionStore();
+  const addTransaction = useTransactionStore(state => state.addTransaction);
+  const editTransaction = useTransactionStore(state => state.editTransaction);
+  const transactions = useTransactionStore(state => state.transactions);
   const [formData, setFormData] = useState({
-    date: new Date().toISOString().split('T')[0],
+    date: getLocalDateString(),
     merchant: '',
     amount: '',
     category: 'Food',
@@ -33,7 +45,7 @@ const AddEditModal = ({ isOpen, onClose, transaction = null }) => {
       });
     } else {
       setFormData({
-        date: new Date().toISOString().split('T')[0],
+        date: getLocalDateString(),
         merchant: '',
         amount: '',
         category: 'Food',
