@@ -23,12 +23,24 @@ const Dashboard = () => {
     return () => clearTimeout(timer);
   }, []);
 
-  // Calculate current and previous month summary
-  const now = new Date();
-  const currentMonth = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}`;
-  const previousMonth = `${now.getFullYear()}-${String(now.getMonth()).padStart(2, '0')}`;
+  // Get available months from transactions
+  const getAvailableMonths = () => {
+    if (transactions.length === 0) return [];
+    const months = new Set();
+    transactions.forEach(txn => {
+      const date = txn.date instanceof Date ? txn.date : new Date(txn.date);
+      const month = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}`;
+      months.add(month);
+    });
+    return Array.from(months).sort();
+  };
+
+  const availableMonths = getAvailableMonths();
+  const currentMonth = availableMonths.length > 0 ? availableMonths[availableMonths.length - 1] : null;
+  const previousMonth = availableMonths.length > 1 ? availableMonths[availableMonths.length - 2] : null;
 
   const getCurrentMonthData = () => {
+    if (!currentMonth) return [];
     return transactions.filter(txn => {
       const date = txn.date instanceof Date ? txn.date : new Date(txn.date);
       const txnMonth = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}`;
@@ -37,9 +49,10 @@ const Dashboard = () => {
   };
 
   const getPreviousMonthData = () => {
+    if (!previousMonth) return [];
     return transactions.filter(txn => {
       const date = txn.date instanceof Date ? txn.date : new Date(txn.date);
-      const txnMonth = `${date.getFullYear()}-${String(date.getMonth()).padStart(2, '0')}`;
+      const txnMonth = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}`;
       return txnMonth === previousMonth;
     });
   };
