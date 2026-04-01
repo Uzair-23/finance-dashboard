@@ -25,14 +25,16 @@ const CustomTooltip = ({ active, payload, label }) => {
 const BalanceTrendChart = ({ transactions }) => {
   const data = calculateBalanceTrend(transactions);
 
+  const formatYAxis = (value) => `₹${(value / 1000).toFixed(0)}k`;
+
   return (
     <Card className="animate-fade-in-up">
       <h3 className="text-lg font-syne font-bold text-white mb-6">Balance Trend</h3>
       <ResponsiveContainer width="100%" height={300}>
-        <LineChart data={data} margin={{ top: 5, right: 30, left: 0, bottom: 5 }}>
+        <LineChart data={data} margin={{ top: 5, right: 30, left: 50, bottom: 5 }}>
           <CartesianGrid strokeDasharray="3 3" stroke="#334155" />
           <XAxis dataKey="month" stroke="#64748b" />
-          <YAxis stroke="#64748b" />
+          <YAxis stroke="#64748b" tickFormatter={formatYAxis} />
           <Tooltip content={<CustomTooltip />} />
           <Legend />
           <Line
