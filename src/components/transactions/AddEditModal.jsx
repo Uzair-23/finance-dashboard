@@ -106,7 +106,7 @@ const AddEditModal = ({ isOpen, onClose, transaction = null }) => {
 
   const FormField = ({ label, name, type = 'text', required = true, children = null }) => (
     <div>
-      <label className="block text-sm font-dm-sans font-medium text-slate-300 mb-2">
+      <label className="block text-xs sm:text-sm font-dm-sans font-medium text-slate-300 mb-2">
         {label} {required && <span className="text-red-400">*</span>}
       </label>
       {children || (
@@ -115,7 +115,7 @@ const AddEditModal = ({ isOpen, onClose, transaction = null }) => {
           name={name}
           value={formData[name]}
           onChange={handleChange}
-          className={`w-full px-4 py-2.5 rounded-lg bg-slate-700/50 border ${
+          className={`w-full px-3 sm:px-4 py-2.5 text-sm rounded-lg bg-slate-700/50 border ${
             errors[name] ? 'border-red-500' : 'border-slate-600'
           } text-white font-dm-sans placeholder-slate-400 focus:ring-2 focus:ring-blue-500`}
         />
@@ -143,13 +143,13 @@ const AddEditModal = ({ isOpen, onClose, transaction = null }) => {
         </>
       }
     >
-      <form className="space-y-4" onSubmit={handleSubmit}>
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+      <form className="space-y-3" onSubmit={handleSubmit}>
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
           <FormField label="Date" name="date" type="date" />
           <FormField label="Merchant" name="merchant" />
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
           <FormField label="Amount" name="amount" type="number" />
           <FormField label="Type" name="type">
             <select

@@ -81,7 +81,7 @@ const Dashboard = () => {
     return (
       <div>
         <Navbar title="Dashboard" />
-        <div className="flex-1 p-6 space-y-6">
+        <div className="flex-1 p-4 sm:p-6 space-y-4 sm:space-y-6">
           {/* Loading skeletons */}
           {[1, 2, 3, 4].map(i => (
             <div key={i} className="h-24 bg-slate-700/50 rounded-lg animate-pulse" />
@@ -94,9 +94,9 @@ const Dashboard = () => {
   return (
     <div>
       <Navbar title="Dashboard" />
-      <div className="flex-1 p-6 space-y-6">
+      <div className="flex-1 p-4 sm:p-6 space-y-4 sm:space-y-6">
         {/* Summary Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
           <SummaryCard
             icon={DollarSign}
             label="Total Balance"
@@ -125,7 +125,7 @@ const Dashboard = () => {
         </div>
 
         {/* Charts */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
           <BalanceTrendChart transactions={transactions} />
           <SpendingPieChart transactions={transactions} />
         </div>

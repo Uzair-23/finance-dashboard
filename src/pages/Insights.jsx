@@ -50,9 +50,9 @@ const Insights = () => {
   return (
     <div>
       <Navbar title="Insights" />
-      <div className="flex-1 p-6 space-y-6">
+      <div className="flex-1 p-4 sm:p-6 space-y-4 sm:space-y-6">
         {/* Highlight Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
           <InsightCard
             icon={TrendingUp}
             title="Highest Spending"
@@ -87,8 +87,40 @@ const Insights = () => {
 
         {/* Category Breakdown Table */}
         <Card className="animate-fade-in-up">
-          <h3 className="text-lg font-syne font-bold text-white mb-6">Category Breakdown</h3>
-          <div className="overflow-x-auto">
+          <h3 className="text-base sm:text-lg font-syne font-bold text-white mb-4 sm:mb-6">Category Breakdown</h3>
+          
+          {/* Mobile Card View */}
+          <div className="md:hidden space-y-3">
+            {categorySpending.length > 0 ? (
+              categorySpending.map((item) => {
+                const percentage = totalExpenses > 0 ? ((item.amount / totalExpenses) * 100).toFixed(1) : 0;
+                return (
+                  <div key={item.category} className="bg-slate-700/20 rounded-lg p-4 border border-slate-700/30">
+                    <div className="flex justify-between items-start mb-3">
+                      <div>
+                        <p className="font-dm-sans font-semibold text-white">{item.category}</p>
+                        <p className="text-xs text-slate-400 mt-1">{formatCurrency(item.amount)}</p>
+                      </div>
+                      <span className="text-sm font-dm-sans font-semibold text-blue-400">{percentage}%</span>
+                    </div>
+                    <div className="w-full h-2 bg-slate-700/50 rounded-full overflow-hidden">
+                      <div
+                        className="h-full bg-blue-500 transition-all duration-300"
+                        style={{ width: `${percentage}%` }}
+                      />
+                    </div>
+                  </div>
+                );
+              })
+            ) : (
+              <div className="text-center text-slate-400 font-dm-sans py-8">
+                No expense data available
+              </div>
+            )}
+          </div>
+
+          {/* Desktop Table View */}
+          <div className="hidden md:block overflow-x-auto">
             <table className="w-full">
               <thead>
                 <tr className="border-b border-slate-700/50">

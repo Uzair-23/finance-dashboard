@@ -28,13 +28,15 @@ const MonthlyComparisonChart = ({ transactions }) => {
   const data = getMonthlyComparison(transactions);
 
   const formatYAxis = (value) => `₹${(value / 1000).toFixed(0)}k`;
+  const isMobile = typeof window !== 'undefined' && window.innerWidth < 640;
+  const chartHeight = isMobile ? 220 : 300;
 
   return (
     <Card className="animate-fade-in-up">
-      <h3 className="text-lg font-syne font-bold text-white mb-6">Monthly Comparison</h3>
+      <h3 className="text-base sm:text-lg font-syne font-bold text-white mb-4 sm:mb-6">Monthly Comparison</h3>
       {data.length > 0 ? (
-        <ResponsiveContainer width="100%" height={350}>
-          <BarChart data={data} margin={{ top: 5, right: 30, left: 50, bottom: 5 }}>
+        <ResponsiveContainer width="100%" height={chartHeight}>
+          <BarChart data={data} margin={{ top: 5, right: 10, left: 35, bottom: 5 }}>
             <CartesianGrid strokeDasharray="3 3" stroke="#334155" />
             <XAxis dataKey="month" stroke="#64748b" />
             <YAxis stroke="#64748b" tickFormatter={formatYAxis} />
@@ -45,7 +47,7 @@ const MonthlyComparisonChart = ({ transactions }) => {
           </BarChart>
         </ResponsiveContainer>
       ) : (
-        <div className="h-[350px] flex items-center justify-center text-slate-400">
+        <div className="flex items-center justify-center text-slate-400" style={{ height: `${chartHeight}px` }}>
           No data available
         </div>
       )}

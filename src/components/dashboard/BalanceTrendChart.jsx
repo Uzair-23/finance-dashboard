@@ -29,9 +29,9 @@ const BalanceTrendChart = ({ transactions }) => {
 
   return (
     <Card className="animate-fade-in-up">
-      <h3 className="text-lg font-syne font-bold text-white mb-6">Balance Trend</h3>
-      <ResponsiveContainer width="100%" height={300}>
-        <LineChart data={data} margin={{ top: 5, right: 30, left: 50, bottom: 5 }}>
+      <h3 className="text-base sm:text-lg font-syne font-bold text-white mb-4 sm:mb-6">Balance Trend</h3>
+      <ResponsiveContainer width="100%" height={220}>
+        <LineChart data={data} margin={{ top: 5, right: 5, left: 35, bottom: 5 }}>
           <CartesianGrid strokeDasharray="3 3" stroke="#334155" />
           <XAxis dataKey="month" stroke="#64748b" />
           <YAxis stroke="#64748b" tickFormatter={formatYAxis} />

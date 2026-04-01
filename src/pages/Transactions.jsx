@@ -47,12 +47,12 @@ const Transactions = () => {
   return (
     <div>
       <Navbar title="Transactions" onExport={isAdmin ? handleExport : null} />
-      <div className="flex-1 p-6 space-y-6">
+      <div className="flex-1 p-4 sm:p-6 space-y-4 sm:space-y-6">
         {/* Header */}
-        <div className="flex items-center justify-between">
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
           <div>
-            <h2 className="text-2xl font-syne font-bold text-white">All Transactions</h2>
-            <p className="text-slate-400 font-dm-sans mt-1">
+            <h2 className="text-xl sm:text-2xl font-syne font-bold text-white">All Transactions</h2>
+            <p className="text-xs sm:text-sm text-slate-400 font-dm-sans mt-1">
               {filteredTransactions.length} of {transactions.length} transaction(s)
             </p>
           </div>

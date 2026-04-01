@@ -36,19 +36,25 @@ const SpendingPieChart = ({ transactions }) => {
     }));
   }, [transactions]);
 
+  // Responsive dimensions based on screen size
+  const isMobile = typeof window !== 'undefined' && window.innerWidth < 640;
+  const chartHeight = isMobile ? 240 : 280;
+  const innerRadius = isMobile ? 45 : 50;
+  const outerRadius = isMobile ? 70 : 80;
+
   return (
     <Card className="animate-fade-in-up">
-      <h3 className="text-lg font-syne font-bold text-white mb-6">Spending Breakdown</h3>
+      <h3 className="text-base sm:text-lg font-syne font-bold text-white mb-4 sm:mb-6">Spending Breakdown</h3>
       {data.length > 0 ? (
         <div className="space-y-4">
-          <ResponsiveContainer width="100%" height={300}>
+          <ResponsiveContainer width="100%" height={chartHeight}>
             <PieChart>
               <Pie
                 data={data}
                 cx="50%"
                 cy="50%"
-                innerRadius={60}
-                outerRadius={100}
+                innerRadius={innerRadius}
+                outerRadius={outerRadius}
                 paddingAngle={2}
                 dataKey="amount"
                 labelLine={false}
@@ -68,7 +74,7 @@ const SpendingPieChart = ({ transactions }) => {
           </ResponsiveContainer>
         </div>
       ) : (
-        <div className="h-[300px] flex items-center justify-center text-slate-400">
+        <div className="flex items-center justify-center text-slate-400" style={{ height: `${chartHeight}px` }}>
           No expense data available
         </div>
       )}

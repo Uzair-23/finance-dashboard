@@ -12,10 +12,10 @@ const SummaryCard = ({ icon: Icon, label, value, change, percentage = false }) =
 
   return (
     <Card className="animate-fade-in-up">
-      <div className="flex items-start justify-between">
-        <div>
-          <p className="text-sm text-slate-400 font-dm-sans mb-2">{label}</p>
-          <p className="text-3xl font-syne font-bold text-white mb-4">{percentage ? value : formatCurrency(value)}</p>
+      <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3">
+        <div className="flex-1">
+          <p className="text-xs sm:text-sm text-slate-400 font-dm-sans mb-2">{label}</p>
+          <p className="text-xl sm:text-2xl lg:text-3xl font-syne font-bold text-white mb-4">{percentage ? value : formatCurrency(value)}</p>
           <div className="flex items-center gap-2">
             <Badge variant={badgeVariant} size="sm">
               {isPositive ? '+' : ''}{change}%
@@ -23,8 +23,8 @@ const SummaryCard = ({ icon: Icon, label, value, change, percentage = false }) =
             <span className={`text-xs font-dm-sans ${changeColor}`}>vs last month</span>
           </div>
         </div>
-        <div className="p-3 rounded-lg bg-blue-500/20">
-          <Icon size={24} className="text-blue-400" />
+        <div className="p-2 sm:p-3 rounded-lg bg-blue-500/20 shrink-0">
+          <Icon size={20} className="sm:w-6 sm:h-6 text-blue-400" />
         </div>
       </div>
     </Card>

@@ -76,7 +76,53 @@ const TransactionTable = ({
 
   return (
     <Card padding="p-0">
-      <div className="overflow-x-auto">
+      {/* Mobile Card View (hidden on md and above) */}
+      <div className="md:hidden space-y-2 p-4">
+        {paginated.map((txn) => (
+          <div
+            key={txn.id}
+            className="bg-slate-700/20 rounded-lg p-4 border border-slate-700/30 hover:border-slate-600/50 transition-colors"
+          >
+            <div className="flex items-start justify-between mb-3 gap-2">
+              <div className="flex-1 min-w-0">
+                <p className="font-dm-sans font-semibold text-white text-sm truncate">{txn.merchant}</p>
+                <p className="text-xs text-slate-400 mt-1">{formatDate(txn.date)}</p>
+              </div>
+              <Badge variant={txn.type === 'income' ? 'income' : 'expense'} size="sm">
+                {txn.type === 'income' ? 'Income' : 'Expense'}
+              </Badge>
+            </div>
+            <p className="text-xs text-slate-400 mb-3 truncate">{txn.description}</p>
+            <div className="flex items-center justify-between mb-3">
+              <span className="text-xs font-dm-sans text-slate-300">{txn.category}</span>
+              <p className={`text-sm font-dm-sans font-semibold ${txn.type === 'income' ? 'text-green-400' : 'text-white'}`}>
+                {txn.type === 'income' ? '+' : '-'}{formatCurrency(txn.amount)}
+              </p>
+            </div>
+            {isAdmin && (
+              <div className="flex gap-2 pt-3 border-t border-slate-700/30">
+                <button
+                  onClick={() => onEdit(txn)}
+                  className="flex-1 py-2 text-xs rounded bg-blue-500/10 text-blue-400 hover:bg-blue-500/20 transition-colors font-dm-sans"
+                  aria-label={`Edit transaction: ${txn.merchant}`}
+                >
+                  Edit
+                </button>
+                <button
+                  onClick={() => onDelete(txn.id)}
+                  className="flex-1 py-2 text-xs rounded bg-red-500/10 text-red-400 hover:bg-red-500/20 transition-colors font-dm-sans"
+                  aria-label={`Delete transaction: ${txn.merchant}`}
+                >
+                  Delete
+                </button>
+              </div>
+            )}
+          </div>
+        ))}
+      </div>
+
+      {/* Desktop Table View (hidden on md and below) */}
+      <div className="hidden md:block overflow-x-auto">
         <table className="w-full">
           <thead>
             <tr className="border-b border-slate-700/50">
@@ -168,16 +214,17 @@ const TransactionTable = ({
 
       {/* Pagination */}
       {totalPages > 1 && (
-        <div className="border-t border-slate-700/50 px-6 py-4 flex items-center justify-between">
-          <p className="text-sm font-dm-sans text-slate-400">
+        <div className="border-t border-slate-700/50 px-4 sm:px-6 py-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+          <p className="text-xs sm:text-sm font-dm-sans text-slate-400">
             Page {currentPage} of {totalPages} ({sorted.length} total)
           </p>
-          <div className="flex gap-2">
+          <div className="flex gap-2 w-full sm:w-auto">
             <Button
               variant="secondary"
               size="sm"
               onClick={() => onPageChange(currentPage - 1)}
               disabled={currentPage === 1}
+              className="flex-1 sm:flex-none"
             >
               Previous
             </Button>
@@ -186,6 +233,7 @@ const TransactionTable = ({
               size="sm"
               onClick={() => onPageChange(currentPage + 1)}
               disabled={currentPage === totalPages}
+              className="flex-1 sm:flex-none"
             >
               Next
             </Button>

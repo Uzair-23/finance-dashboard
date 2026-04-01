@@ -11,14 +11,14 @@ const Navbar = ({ title = 'Dashboard', onExport }) => {
 
   return (
     <nav className="sticky top-0 z-40 bg-slate-800/80 backdrop-blur border-b border-slate-700/50">
-      <div className="flex items-center justify-between h-16 px-6">
+      <div className="flex items-center justify-between h-14 sm:h-16 px-3 sm:px-6">
         {/* Title */}
-        <div className="flex items-center gap-3">
-          <h1 className="text-2xl font-syne font-bold text-white">{title}</h1>
+        <div className="flex items-center gap-2 sm:gap-3 flex-1 min-w-0">
+          <h1 className="text-base sm:text-2xl font-syne font-bold text-white truncate">{title}</h1>
         </div>
 
         {/* Actions */}
-        <div className="flex items-center gap-4">
+        <div className="flex items-center gap-2 sm:gap-4 shrink-0">
           {/* Role Badge */}
           <div className="hidden sm:flex items-center gap-2 px-3 py-1.5 bg-slate-700/50 rounded-lg">
             <span className="text-xs font-dm-sans text-slate-300">Role:</span>
