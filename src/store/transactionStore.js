@@ -7,10 +7,15 @@ import { transactions as mockTransactions } from '../data/mockData';
 export const useTransactionStore = create((set) => {
   // Try to get transactions from localStorage, fall back to mock data
   const savedTransactions = localStorage.getItem('transactions');
-  const initialTransactions = savedTransactions ? JSON.parse(savedTransactions) : mockTransactions.map(txn => ({
-    ...txn,
-    date: new Date(txn.date), // Ensure date is a Date object
-  }));
+  const initialTransactions = savedTransactions 
+    ? JSON.parse(savedTransactions).map(txn => ({
+        ...txn,
+        date: new Date(txn.date), // Ensure date is a Date object
+      }))
+    : mockTransactions.map(txn => ({
+        ...txn,
+        date: new Date(txn.date), // Ensure date is a Date object
+      }));
 
   return {
     transactions: initialTransactions,

@@ -30,14 +30,16 @@ const Dashboard = () => {
 
   const getCurrentMonthData = () => {
     return transactions.filter(txn => {
-      const txnMonth = `${txn.date.getFullYear()}-${String(txn.date.getMonth() + 1).padStart(2, '0')}`;
+      const date = txn.date instanceof Date ? txn.date : new Date(txn.date);
+      const txnMonth = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}`;
       return txnMonth === currentMonth;
     });
   };
 
   const getPreviousMonthData = () => {
     return transactions.filter(txn => {
-      const txnMonth = `${txn.date.getFullYear()}-${String(txn.date.getMonth()).padStart(2, '0')}`;
+      const date = txn.date instanceof Date ? txn.date : new Date(txn.date);
+      const txnMonth = `${date.getFullYear()}-${String(date.getMonth()).padStart(2, '0')}`;
       return txnMonth === previousMonth;
     });
   };

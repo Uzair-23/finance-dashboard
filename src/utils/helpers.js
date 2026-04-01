@@ -100,7 +100,8 @@ export const exportToCSV = (transactions, filename = 'transactions.csv') => {
 export const getMonthsFromTransactions = (transactions) => {
   const months = new Set();
   transactions.forEach(txn => {
-    const month = `${txn.date.getFullYear()}-${String(txn.date.getMonth() + 1).padStart(2, '0')}`;
+    const date = txn.date instanceof Date ? txn.date : new Date(txn.date);
+    const month = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}`;
     months.add(month);
   });
   return Array.from(months).sort();
@@ -115,7 +116,8 @@ export const calculateBalanceTrend = (transactions) => {
   const monthlyData = {};
 
   transactions.forEach(txn => {
-    const month = txn.date.getFullYear().toString() + '-' + String(txn.date.getMonth() + 1).padStart(2, '0');
+    const date = txn.date instanceof Date ? txn.date : new Date(txn.date);
+    const month = date.getFullYear().toString() + '-' + String(date.getMonth() + 1).padStart(2, '0');
     if (!monthlyData[month]) {
       monthlyData[month] = { income: 0, expense: 0 };
     }
@@ -167,7 +169,8 @@ export const getMonthlyComparison = (transactions) => {
   const monthlyData = {};
 
   transactions.forEach(txn => {
-    const month = formatMonthYear(txn.date);
+    const date = txn.date instanceof Date ? txn.date : new Date(txn.date);
+    const month = formatMonthYear(date);
     if (!monthlyData[month]) {
       monthlyData[month] = { income: 0, expense: 0 };
     }
