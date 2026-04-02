@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Plus, Download } from 'lucide-react';
+import { Plus, Download, Sliders } from 'lucide-react';
 import Navbar from '../components/layout/Navbar';
 import TransactionTable from '../components/transactions/TransactionTable';
 import TransactionFilters from '../components/transactions/TransactionFilters';
@@ -18,6 +18,24 @@ const Transactions = () => {
   const { isAdmin } = useRole();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
+  const [sortBy, setSortBy] = useState('date');
+  const [sortOrder, setSortOrder] = useState('desc');
+  const [showSortMenu, setShowSortMenu] = useState(false);
+
+  const sortOptions = [
+    { label: 'Date', value: 'date' },
+    { label: 'Merchant', value: 'merchant' },
+    { label: 'Amount', value: 'amount' },
+    { label: 'Category', value: 'category' },
+    { label: 'Type', value: 'type' },
+  ];
+
+  const handleSortChange = (column, order) => {
+    setSortBy(column);
+    setSortOrder(order);
+    setShowSortMenu(false);
+    setCurrentPage(1); // Reset to first page when sorting changes
+  };
 
   const handleAddClick = () => {
     setSelectedTransaction(null);
@@ -71,7 +89,49 @@ const Transactions = () => {
         {/* Filters */}
         <TransactionFilters transactions={transactions} />
 
-        {/* Table */}
+        {/* Sorting Control */}
+        <div className="relative inline-block w-full sm:w-auto">
+          <button
+            onClick={() => setShowSortMenu(!showSortMenu)}
+            className="flex items-center gap-2 px-4 py-2.5 rounded-lg bg-slate-700/50 text-slate-300 hover:text-white hover:bg-slate-700 border border-slate-600 transition-colors duration-200 font-dm-sans text-sm w-full sm:w-auto"
+          >
+            <Sliders size={16} />
+            Sort by: <span className="font-semibold text-blue-400 capitalize">{sortBy}</span>
+          </button>
+
+          {/* Sort Dropdown Menu */}
+          {showSortMenu && (
+            <>
+              {/* Backdrop */}
+              <div 
+                className="fixed inset-0 z-10"
+                onClick={() => setShowSortMenu(false)}
+              />
+              <div className="absolute top-full mt-2 left-0 bg-slate-800 border border-slate-700 rounded-lg shadow-xl z-20 min-w-[200px] sm:min-w-[220px]">
+                <div className="p-2 space-y-1">
+                  {sortOptions.map(option => (
+                    <button
+                      key={option.value}
+                      onClick={() => handleSortChange(option.value, sortBy === option.value && sortOrder === 'asc' ? 'desc' : 'asc')}
+                      className={`w-full text-left px-3 py-2.5 rounded transition-colors font-dm-sans text-sm ${
+                        sortBy === option.value
+                          ? 'bg-blue-500/20 text-blue-400'
+                          : 'text-slate-300 hover:bg-slate-700/50'
+                      }`}
+                    >
+                      <div className="flex items-center justify-between">
+                        <span>{option.label}</span>
+                        {sortBy === option.value && (
+                          <span className="text-xs font-semibold">{sortOrder === 'asc' ? '↑' : '↓'}</span>
+                        )}
+                      </div>
+                    </button>
+                  ))}
+                </div>
+              </div>
+            </>
+          )}
+        </div>
         <TransactionTable
           transactions={filteredTransactions}
           onEdit={handleEdit}
@@ -80,6 +140,9 @@ const Transactions = () => {
           currentPage={currentPage}
           onPageChange={setCurrentPage}
           itemsPerPage={10}
+          sortBy={sortBy}
+          sortOrder={sortOrder}
+          onSortChange={handleSortChange}
         />
       </div>
 

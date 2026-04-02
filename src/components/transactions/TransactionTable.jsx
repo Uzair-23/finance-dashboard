@@ -1,5 +1,4 @@
 import { ChevronUp, ChevronDown, Trash2, Edit2 } from 'lucide-react';
-import { useState } from 'react';
 import Badge from '../common/Badge';
 import Button from '../common/Button';
 import Card from '../common/Card';
@@ -17,9 +16,10 @@ const TransactionTable = ({
   currentPage = 1,
   itemsPerPage = 10,
   onPageChange,
+  sortBy = 'date',
+  sortOrder = 'desc',
+  onSortChange,
 }) => {
-  const [sortBy, setSortBy] = useState('date');
-  const [sortOrder, setSortOrder] = useState('desc');
   const { isAdmin } = useRole();
 
   // Sorting logic
@@ -45,11 +45,12 @@ const TransactionTable = ({
   const totalPages = Math.ceil(sorted.length / itemsPerPage);
 
   const handleSort = (column) => {
-    if (sortBy === column) {
-      setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc');
-    } else {
-      setSortBy(column);
-      setSortOrder('asc');
+    if (onSortChange) {
+      if (sortBy === column) {
+        onSortChange(column, sortOrder === 'asc' ? 'desc' : 'asc');
+      } else {
+        onSortChange(column, 'asc');
+      }
     }
   };
 

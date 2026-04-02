@@ -7,7 +7,12 @@ import { useRole } from '../../hooks';
  */
 const Navbar = ({ title = 'Dashboard', onExport }) => {
   const { isDarkMode, toggleDarkMode } = useDarkModeStore();
-  const { currentRole } = useRole();
+  const { currentRole, setRole } = useRole();
+
+  const toggleRole = () => {
+    const newRole = currentRole === 'Admin' ? 'Viewer' : 'Admin';
+    setRole(newRole);
+  };
 
   return (
     <nav className="sticky top-0 z-40 bg-slate-800/80 backdrop-blur border-b border-slate-700/50">
@@ -19,11 +24,15 @@ const Navbar = ({ title = 'Dashboard', onExport }) => {
 
         {/* Actions */}
         <div className="flex items-center gap-2 sm:gap-4 shrink-0">
-          {/* Role Badge */}
-          <div className="hidden sm:flex items-center gap-2 px-3 py-1.5 bg-slate-700/50 rounded-lg">
-            <span className="text-xs font-dm-sans text-slate-300">Role:</span>
+          {/* Role Toggle Button */}
+          <button
+            onClick={toggleRole}
+            className="hidden sm:flex items-center gap-2 px-3 py-2 bg-blue-500/20 hover:bg-blue-500/30 border border-blue-500/50 rounded-lg transition-colors duration-200 group"
+            title="Toggle between Admin and Viewer"
+          >
+            <span className="text-xs font-dm-sans text-blue-300">Role:</span>
             <span className="text-sm font-dm-sans font-semibold text-blue-400">{currentRole}</span>
-          </div>
+          </button>
 
           {/* Export Button (Admin only) */}
           {currentRole === 'Admin' && onExport && (
