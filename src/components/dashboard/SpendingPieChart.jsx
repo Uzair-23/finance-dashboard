@@ -11,8 +11,10 @@ const CustomTooltip = ({ active, payload }) => {
   if (active && payload && payload.length) {
     const total = payload[0].payload._total || 0;
     const percentage = total > 0 ? ((payload[0].value / total) * 100).toFixed(1) : 0;
+    const isMobile = typeof window !== 'undefined' && window.innerWidth < 640;
+    
     return (
-      <div className="bg-slate-800 border border-slate-700 rounded px-3 py-2 text-sm">
+      <div className={`bg-slate-800 border border-slate-700 rounded px-2 sm:px-3 py-1.5 sm:py-2 ${isMobile ? 'text-xs' : 'text-sm'}`}>
         <p className="text-slate-300">{payload[0].name}</p>
         <p className="text-blue-400 font-dm-sans font-semibold">
           ₹{(payload[0].value / 1000).toFixed(0)}k ({percentage}%)
@@ -38,15 +40,17 @@ const SpendingPieChart = ({ transactions }) => {
 
   // Responsive dimensions based on screen size
   const isMobile = typeof window !== 'undefined' && window.innerWidth < 640;
-  const chartHeight = isMobile ? 240 : 280;
-  const innerRadius = isMobile ? 45 : 50;
-  const outerRadius = isMobile ? 70 : 80;
+  const chartHeight = isMobile ? 200 : 280;
+  const innerRadius = isMobile ? 40 : 50;
+  const outerRadius = isMobile ? 65 : 80;
+  const legendHeight = isMobile ? 90 : 36;
+  const paddingTop = isMobile ? '12px' : '20px';
 
   return (
     <Card className="animate-fade-in-up">
-      <h3 className="text-base sm:text-lg font-syne font-bold text-white mb-4 sm:mb-6">Spending Breakdown</h3>
+      <h3 className="text-base sm:text-lg font-syne font-bold text-white mb-2 sm:mb-4">Spending Breakdown</h3>
       {data.length > 0 ? (
-        <div className="space-y-4">
+        <div className="space-y-2">
           <ResponsiveContainer width="100%" height={chartHeight}>
             <PieChart>
               <Pie
@@ -66,8 +70,8 @@ const SpendingPieChart = ({ transactions }) => {
               <Tooltip content={<CustomTooltip />} />
               <Legend
                 verticalAlign="bottom"
-                height={36}
-                wrapperStyle={{ paddingTop: '20px' }}
+                height={legendHeight}
+                wrapperStyle={{ paddingTop: paddingTop, overflow: 'visible' }}
                 formatter={(value, entry) => entry.payload.category}
               />
             </PieChart>
