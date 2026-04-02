@@ -40,23 +40,21 @@ const SpendingPieChart = ({ transactions }) => {
 
   // Responsive dimensions based on screen size
   const isMobile = typeof window !== 'undefined' && window.innerWidth < 640;
-  const chartHeight = isMobile ? 200 : 280;
-  const innerRadius = isMobile ? 40 : 50;
-  const outerRadius = isMobile ? 65 : 80;
-  const legendHeight = isMobile ? 90 : 36;
-  const paddingTop = isMobile ? '12px' : '20px';
+  const chartHeight = isMobile ? 180 : 280;
+  const innerRadius = isMobile ? 35 : 50;
+  const outerRadius = isMobile ? 55 : 80;
 
   return (
-    <Card className="animate-fade-in-up">
-      <h3 className="text-base sm:text-lg font-syne font-bold text-white mb-2 sm:mb-4">Spending Breakdown</h3>
+    <Card className="animate-fade-in-up overflow-hidden">
+      <h3 className="text-base sm:text-lg font-syne font-bold text-white mb-3 sm:mb-6">Spending Breakdown</h3>
       {data.length > 0 ? (
-        <div className="space-y-2">
+        <div className="w-full">
           <ResponsiveContainer width="100%" height={chartHeight}>
-            <PieChart>
+            <PieChart margin={{ top: 0, right: 0, bottom: 0, left: 0 }}>
               <Pie
                 data={data}
                 cx="50%"
-                cy="50%"
+                cy="45%"
                 innerRadius={innerRadius}
                 outerRadius={outerRadius}
                 paddingAngle={2}
@@ -68,14 +66,21 @@ const SpendingPieChart = ({ transactions }) => {
                 ))}
               </Pie>
               <Tooltip content={<CustomTooltip />} />
-              <Legend
-                verticalAlign="bottom"
-                height={legendHeight}
-                wrapperStyle={{ paddingTop: paddingTop, overflow: 'visible' }}
-                formatter={(value, entry) => entry.payload.category}
-              />
             </PieChart>
           </ResponsiveContainer>
+          
+          {/* Custom Legend for Mobile */}
+          <div className="mt-4 flex flex-wrap gap-2 justify-center">
+            {data.map((item, index) => (
+              <div key={index} className="flex items-center gap-1.5">
+                <div
+                  className="w-3 h-3 rounded-sm shrink-0"
+                  style={{ backgroundColor: CATEGORY_COLORS[item.category] || '#64748b' }}
+                />
+                <span className="text-xs text-slate-300 font-dm-sans whitespace-nowrap">{item.category}</span>
+              </div>
+            ))}
+          </div>
         </div>
       ) : (
         <div className="flex items-center justify-center text-slate-400" style={{ height: `${chartHeight}px` }}>
